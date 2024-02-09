@@ -13,10 +13,10 @@ def create_app(config_class=Config):
     from app.cli import cli_bp
     app.register_blueprint(cli_bp)
 
-    from app.models import user
-
     @app.route('/')
     def main_page():
         return '<h1>Main page</h1>'
     
     return app
+
+from app.models import user
