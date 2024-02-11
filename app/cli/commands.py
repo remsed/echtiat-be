@@ -1,6 +1,24 @@
 import click
 from app.cli import cli_bp
+from app import db
+from app.models.user import User
 
 @cli_bp.cli.command('create_db')
 def create_db():
-    print("Running create_db bp")
+    db.create_all()
+    print('Create database: Done.')
+
+@cli_bp.cli.command('drop_db')
+def drop_db():
+    db.drop_all()
+    print('Drop database: Done.')
+
+@cli_bp.cli.command('populate_db')
+def populate_db():
+    test_user = User(fname='',
+                     lname='',
+                     email='',
+                     password='')
+    db.session.add(test_user)
+    db.session.commit()
+    print('Populate database: Done.')
