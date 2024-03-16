@@ -15,10 +15,10 @@ def drop_db():
 
 @cli_bp.cli.command('populate_db')
 def populate_db():
-    test_user = User(fname='',
-                     lname='',
-                     email='',
-                     password='')
+    test_user = User(fname='fname01',
+                     lname='lname01',
+                     email='fname01.lname01@example.com',
+                     password='fname01.lname01')
     db.session.add(test_user)
     db.session.commit()
     print('Populate database: Done.')
