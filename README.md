@@ -13,6 +13,19 @@ source venv/bin/activate
 flask --app app run --debug
 ```
 
+### DB migration
+
+To create a migration script after changing or adding DB models, execute the following command:
+```bash
+flask db migrate -m "new table version"
+```
+A new migration script will be generated in migrations/versions/
+
+To run the migration script:
+```bash
+flask db upgrade
+```
+
 ### CLI Commands
 
 To create a database with all defined tables, execute the following command in the app root directory:
