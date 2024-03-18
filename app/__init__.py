@@ -13,18 +13,4 @@ db_migrate = Migrate(app, db)
 from app.cli import cli_bp
 app.register_blueprint(cli_bp)
 
-def create_app(config_class=Config):
-    # app = Flask(__name__)
-    # app.config.from_object(config_class)
-
-    # db = SQLAlchemy(app)
-    # db_migrate = Migrate(app, db)
-
-    # from app.cli import cli_bp
-    # app.register_blueprint(cli_bp)
-
-    @app.route('/')
-    def main_page():
-        return '<h1>Main page</h1>'
-    
-    return app
+from app.core import main
