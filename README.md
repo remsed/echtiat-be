@@ -42,3 +42,10 @@ To drop all tables in the database:
 ```bash
 flask cli drop_db 
 ```
+
+### Populate requirements file
+
+To populate requirements.txt file with installed packages:
+```bash
+pip freeze > requirements.txt
+```

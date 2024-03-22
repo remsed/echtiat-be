@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, bcrypt
 from flask import request, jsonify
 from app.models.user import User
 from flask_jwt_extended import create_access_token, jwt_required
@@ -20,7 +20,8 @@ def register():
             last_name = request.json['last_name']
             email = request.json['email']
             password = request.json['password']
-            user = User(fname=first_name, lname=last_name, email=email, password=password)
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            user = User(fname=first_name, lname=last_name, email=email, password=hashed_password)
             db.session.add(user)
             db.session.commit()
             return jsonify(message='User account has been successfully created!'), 201
@@ -34,7 +35,8 @@ def register():
             last_name = request.form['last_name']
             email = request.form['email']
             password = request.form['password']
-            user = User(fname=first_name, lname=last_name, email=email, password=password)
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')            
+            user = User(fname=first_name, lname=last_name, email=email, password=hashed_password)
             db.session.add(user)
             db.session.commit()
             return jsonify(message='User account has been successfully created!'), 201
@@ -48,9 +50,12 @@ def login():
         email = request.form['email']
         password = request.form['password']
     
-    user_account = User.query.filter_by(email=email, password=password).first()
+    user_account = User.query.filter_by(email=email).first()
+    hashed_password = user_account.password
+    print(hashed_password)
+    is_valid = bcrypt.check_password_hash(hashed_password, password) 
 
-    if user_account:
+    if is_valid:
         user_jwt_token = create_access_token(identity=email)
         return jsonify(message='Login is successful!', access_token=user_jwt_token)
     else:
